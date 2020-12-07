@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.list.MoviesListActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMoviesList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline022h" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline006h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline022h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.22" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline006v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <TextView
+        android:id="@+id/textViewListProducer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/movies"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@+id/guideline006v"
+        app:layout_constraintTop_toTopOf="@+id/guideline006h" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/the_library_of_my_favourite_movies"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toTopOf="@+id/guideline022h"
+        app:layout_constraintStart_toStartOf="@+id/guideline006v"
+        app:layout_constraintTop_toBottomOf="@+id/textViewListProducer" />
+
+    <ImageView
+        android:id="@+id/imageViewNoInternet"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/no_internet_connection"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/no_internet" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewMoviesList"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewMoviesList" />
+</androidx.constraintlayout.widget.ConstraintLayout>

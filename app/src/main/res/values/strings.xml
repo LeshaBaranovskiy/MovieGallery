@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MovieGallery</string>
+    <string name="runtime">Runtime</string>
+    <string name="released">Released</string>
+    <string name="director">Director</string>
+    <string name="story">Story</string>
+    <string name="writers">Writers</string>
+    <string name="cast">Cast</string>
+    <string name="movies">Movies</string>
+    <string name="the_library_of_my_favourite_movies">The library of my favourite movies</string>
+    <string name="no_internet_connection">no_internet_connection</string>
+</resources>
