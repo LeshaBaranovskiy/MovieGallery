@@ -83,8 +83,6 @@
             android:adjustViewBounds="true"
             android:background="@drawable/image_bg"
             android:elevation="6dp"
-            android:translationZ="6dp"
-            android:outlineAmbientShadowColor="@color/colorText"
             app:layout_constraintBottom_toTopOf="@+id/guideline0661h"
             app:layout_constraintEnd_toStartOf="@+id/guideline090v"
             app:layout_constraintStart_toStartOf="@+id/guideline006v"

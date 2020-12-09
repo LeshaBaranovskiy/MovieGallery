@@ -19,7 +19,6 @@ import com.example.moviegallery.screens.list.usecases.GetAllMoviesFromDB;
 import com.example.moviegallery.screens.list.usecases.InsertMoviesInDB;
 import com.example.moviegallery.screens.list.usecases.InsertRatingsInDB;
 import com.example.moviegallery.screens.list.usecases.abstracts.GetUseCase;
-import com.example.moviegallery.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
