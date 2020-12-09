@@ -11,13 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.detail.DetailActivity">
+        <activity android:name=".presentation.activity.DetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.moviegallery.screens.list.MoviesListActivity"
+                android:value="com.example.moviegallery.presentation.activity.MoviesListActivity"
                 />
         </activity>
-        <activity android:name=".screens.list.MoviesListActivity">
+        <activity android:name=".presentation.activity.MoviesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,11 +25,11 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="com.example.moviegallery.model.database.movies_entry"
-            android:name=".model.database.movies_entry.MoviesContentProvider"/>
+            android:authorities="com.example.moviegallery.data.database.movies_entry"
+            android:name=".data.database.movies_entry.MoviesContentProvider"/>
         <provider
-            android:authorities="com.example.moviegallery.model.database.ratings_entry"
-            android:name=".model.database.ratings_entry.RatingsContentProvider"/>
+            android:authorities="com.example.moviegallery.data.database.ratings_entry"
+            android:name=".data.database.ratings_entry.RatingsContentProvider"/>
     </application>
 
 </manifest>

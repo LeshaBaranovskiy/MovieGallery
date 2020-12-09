@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".screens.detail.DetailActivity">
+        tools:context=".presentation.activity.DetailActivity">
 
         <ImageView
             android:id="@+id/imageViewDetailPoster"
