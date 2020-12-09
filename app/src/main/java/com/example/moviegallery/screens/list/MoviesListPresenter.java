@@ -1,23 +1,24 @@
 package com.example.moviegallery.screens.list;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.moviegallery.adapters.MoviesAdapter;
 import com.example.moviegallery.model.database.MoviesDAO;
-import com.example.moviegallery.model.database.MoviesDBContract;
-import com.example.moviegallery.model.database.movies_entry.MoviesDBHelper;
 import com.example.moviegallery.pojo.Movie;
 import com.example.moviegallery.pojo.Rating;
 import com.example.moviegallery.screens.detail.DetailActivity;
-import com.example.moviegallery.screens.list.usecases.GetAllMoviesUseCase;
-import com.example.moviegallery.screens.list.usecases.MovieUseCase;
+import com.example.moviegallery.screens.list.usecases.DeleteAllMovies;
+import com.example.moviegallery.screens.list.usecases.DeleteAllRaitings;
+import com.example.moviegallery.screens.list.usecases.GetAllMoviesFromAPI;
+import com.example.moviegallery.screens.list.usecases.GetAllMoviesFromDB;
+import com.example.moviegallery.screens.list.usecases.InsertMoviesInDB;
+import com.example.moviegallery.screens.list.usecases.InsertRatingsInDB;
+import com.example.moviegallery.screens.list.usecases.abstracts.GetUseCase;
 import com.example.moviegallery.util.Constants;
 
 import java.util.ArrayList;
@@ -35,24 +36,32 @@ public class MoviesListPresenter {
 
     private Context context;
 
-    private MoviesDBHelper moviesDBHelper;
-
-    private SQLiteDatabase database;
-
-    private GetAllMoviesUseCase getAllMoviesUseCase;
+    private GetAllMoviesFromAPI getAllMoviesFromAPIUseCase;
+    private GetAllMoviesFromDB getAllMoviesFromDBUseCase;
+    private InsertRatingsInDB insertRatingsInDB;
+    private InsertMoviesInDB insertMoviesInDB;
+    private DeleteAllMovies deleteAllMovies;
+    private DeleteAllRaitings deleteAllRaitings;
 
     private MoviesDAO moviesDAO;
+
+    public static final String MODE = "current_mode";
 
     public MoviesListPresenter(MovieListView movieListView, Context context) {
         this.movieListView = movieListView;
         this.context = context;
-        moviesDBHelper = new MoviesDBHelper(context);
-        getAllMoviesUseCase = new GetAllMoviesUseCase();
+        getAllMoviesFromAPIUseCase = new GetAllMoviesFromAPI();
+        getAllMoviesFromDBUseCase = new GetAllMoviesFromDB(context);
+        insertRatingsInDB = new InsertRatingsInDB(context);
+        insertMoviesInDB = new InsertMoviesInDB(context);
+        deleteAllMovies = new DeleteAllMovies(context);
+        deleteAllRaitings = new DeleteAllRaitings(context);
+
         moviesDAO = new MoviesDAO(context);
     }
 
     public void loadMoviesFromAPI() {
-        getAllMoviesUseCase.execute(new MovieUseCase<List<Movie>>() {
+        getAllMoviesFromAPIUseCase.execute(new GetUseCase.GetMovieUseCase<List<Movie>>() {
             @Override
             public void accept(List<Movie> data) {
                 movieListView.controlProgressBar(true);
@@ -74,30 +83,39 @@ public class MoviesListPresenter {
             @Override
             public void acceptThrowable() {
                 movieListView.controlProgressBar(true);
-                movieListView.getListMoviesFromDB(getMoviesFromDB());
+                getMoviesFromDB();
                 movieListView.controlProgressBar(false);
             }
         });
     }
 
-    public List<Movie> getMoviesFromDB() {
-        return moviesDAO.getMoviesFromDB();
-    }
-
-    public void insertRatingsInDB(List<Rating> ratings) {
-        moviesDAO.insertRatingsInDB(ratings);
-    }
-
-    public void deleteAllRaitings() {
-        moviesDAO.deleteAllRaitings();
+    public void getMoviesFromDB() {
+        getAllMoviesFromDBUseCase.execute(new GetUseCase.GetMovieUseCase<List<Movie>>() {
+            @Override
+            public void accept(List<Movie> data) {
+                movieListView.getListMoviesFromDB(data);
+            }
+            @Override
+            public void acceptThrowable() {
+                Log.i("ttt", "wrong");
+            }
+        });
     }
 
     public void insertMoviesInDB(List<Movie> movies) {
-        moviesDAO.insertMoviesInDB(movies);
+        insertMoviesInDB.execute(movies);
     }
 
     public void deleteAllMovies() {
-        moviesDAO.deleteAllMovies();
+        deleteAllMovies.execute();
+    }
+
+    public void insertRatingsInDB(List<Rating> ratings) {
+        insertRatingsInDB.execute(ratings);
+    }
+
+    public void deleteAllRaitings() {
+        deleteAllRaitings.execute();
     }
 
     public void onMovieClickAction(MoviesAdapter moviesAdapter, Context context, int position) {
@@ -113,8 +131,8 @@ public class MoviesListPresenter {
     }
 
     public void changeToLightModeSharedPreferences() {
-        currentMode = context.getSharedPreferences(Constants.MODE, Context.MODE_PRIVATE);
-        currentMode.edit().putInt(Constants.MODE, 0).apply();
+        currentMode = context.getSharedPreferences(MODE, Context.MODE_PRIVATE);
+        currentMode.edit().putInt(MODE, 0).apply();
     }
 
     public void changeToDarkMode() {
@@ -122,17 +140,16 @@ public class MoviesListPresenter {
     }
 
     public void changeToDarkModeSharedPreferences() {
-        currentMode = context.getSharedPreferences(Constants.MODE, Context.MODE_PRIVATE);
-        currentMode.edit().putInt(Constants.MODE, 1).apply();
+        currentMode = context.getSharedPreferences(MODE, Context.MODE_PRIVATE);
+        currentMode.edit().putInt(MODE, 1).apply();
     }
 
     public int getCurrentMode() {
-        currentMode = context.getSharedPreferences(Constants.MODE, Context.MODE_PRIVATE);
-        return currentMode.getInt(Constants.MODE, 0);
+        currentMode = context.getSharedPreferences(MODE, Context.MODE_PRIVATE);
+        return currentMode.getInt(MODE, 0);
     }
 
     public void onDestroy() {
-        moviesDBHelper.close();
         if (compositeDisposable != null) {
             compositeDisposable.dispose();
         }

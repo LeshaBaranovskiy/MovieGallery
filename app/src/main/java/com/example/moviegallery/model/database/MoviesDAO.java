@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.rxjava3.core.Observable;
+
 public class MoviesDAO {
 
     private Context context;
@@ -19,7 +21,7 @@ public class MoviesDAO {
         this.context = context;
     }
 
-    public List<Movie> getMoviesFromDB() {
+    public Observable<List<Movie>> getMoviesFromDB() {
         List<Movie> moviesFromDB = new ArrayList<>();
 
         Cursor cursor = context.getContentResolver().query(MoviesDBContract.MovieTable.CONTENT_URI, null, null, null, null);
@@ -47,7 +49,7 @@ public class MoviesDAO {
             movie.setRatings(r);
         }
 
-        return moviesFromDB;
+        return Observable.just(moviesFromDB);
     }
 
     public void insertMoviesInDB(List<Movie> movies) {

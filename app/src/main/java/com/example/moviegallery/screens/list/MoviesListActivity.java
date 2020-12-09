@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -90,6 +91,7 @@ public class MoviesListActivity extends AppCompatActivity implements MovieListVi
             presenter.loadMoviesFromAPI();
         }
 
+        Log.i("ttt",moviesAdapter.getMovies().size() + "");
         moviesAdapter.setOnMovieClickListener(position -> presenter.onMovieClickAction(moviesAdapter, getApplicationContext(), position));
     }
 

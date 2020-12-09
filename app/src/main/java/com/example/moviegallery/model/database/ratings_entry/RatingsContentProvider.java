@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviegallery.model.database.MoviesDBContract;
-import com.example.moviegallery.model.database.movies_entry.MoviesDBHelper;
 
 public class RatingsContentProvider extends ContentProvider {
 
